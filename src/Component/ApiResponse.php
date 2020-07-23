@@ -11,13 +11,14 @@ class ApiResponse extends JsonResponse
 {
     /**
      * Send an error formatted response
-     * @param array $data Body data
+     * @param string $message Error summary
+     * @param array $errors Error list
      * @param int $status HTTP status code
      * @return self
      */
-    public function error(array $data, int $status = 400): self
+    public function error(string $message, array $errors, int $status = 400): self
     {
-        $this->setData(['error' => $data]);
+        $this->setData(['error' => ['message' => $message, 'errors' => $errors]]);
         $this->setStatusCode($status);
 
         return $this;
