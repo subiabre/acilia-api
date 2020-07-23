@@ -14,7 +14,7 @@ class SnowflakeGeneratorTest extends KernelTestCase
 
     public function setUp(): void{
         self::bootKernel();
-        $this->snowflake = self::$kernel->getContainer()->get('app.service.snowflake-generator');
+        $this->snowflake = self::$container->get(SnowflakeGenerator::class);
     }
 
     public function testExplicitlyGeneratesId()
