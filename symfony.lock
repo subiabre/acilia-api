@@ -81,6 +81,9 @@
     "doctrine/sql-formatter": {
         "version": "1.1.0"
     },
+    "godruoyi/php-snowflake": {
+        "version": "1.0.9"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
