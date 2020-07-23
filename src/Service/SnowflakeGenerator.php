@@ -2,15 +2,16 @@
 
 namespace App\Service;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Id\AbstractIdGenerator;
 use Godruoyi\Snowflake\RandomSequenceResolver;
-use Godruoyi\Snowflake\SequenceResolver;
 use Godruoyi\Snowflake\Snowflake;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Generate numeric, time based ids that are ideal for distributed environments
  */
-class SnowflakeGenerator
+class SnowflakeGenerator extends AbstractIdGenerator
 {
     /**
      * @var int Number of the datacenter
@@ -58,6 +59,11 @@ class SnowflakeGenerator
     }
 
     public function __toString(): string
+    {
+        return $this->getId();
+    }
+
+    public function generate(EntityManager $em, $entity)
     {
         return $this->getId();
     }
