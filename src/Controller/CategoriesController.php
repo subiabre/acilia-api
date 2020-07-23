@@ -50,7 +50,7 @@ class CategoriesController extends AbstractController
         if (\count($errors) > 0) {
             $errorList = listValidationErrors($errors);
 
-            return $response->error(['message' => 'Malformed payload', 'errors' => $errorList]);
+            return $response->error('Malformed payload', $errorList);
         }
 
         $em->persist($category);
