@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Component\ApiResponse;
 use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,27 @@ class CategoriesController extends AbstractController
 
         $categoryData = $normalizer->normalize($category);
         
+        return $response->data(['category' => $categoryData]);
+    }
+
+    /**
+     * @Route("/category/{id}", name="Category:select", methods={"GET"})
+     */
+    public function r(
+        String $id,
+        ApiResponse $response,
+        NormalizerInterface $normalizer,
+        CategoryRepository $categories
+    )
+    {
+        $category = $categories->find($id);
+
+        if (!$category) {
+            return $response->error('Not Found', ['id' => "Could not find any category with the id: $id"], 404);
+        }
+
+        $categoryData = $normalizer->normalize($category);
+
         return $response->data(['category' => $categoryData]);
     }
 }
