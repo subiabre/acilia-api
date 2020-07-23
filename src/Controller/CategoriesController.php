@@ -75,9 +75,7 @@ class CategoriesController extends AbstractController
         $category = $categories->find($id);
 
         if (!$category) {
-            $message = "Could not find any category with the id: $id";
-
-            return $response->error('Not Found', ['id' => $message], ApiResponse::HTTP_NOT_FOUND);
+            return $response->error404('category', $id);
         }
 
         $categoryData = $normalizer->normalize($category);
@@ -102,9 +100,7 @@ class CategoriesController extends AbstractController
         $requestBody = $request->request;
 
         if (!$category) {
-            $message = "Could not find any category with the id: $id";
-
-            return $response->error('Not Found', ['id' => $message], ApiResponse::HTTP_NOT_FOUND);
+            return $response->error404('category', $id);
         }
 
         $category
@@ -140,9 +136,7 @@ class CategoriesController extends AbstractController
         $category = $categories->find($id);
 
         if (!$category) {
-            $message = "Could not find any category with the id: $id";
-
-            return $response->error('Not Found', ['id' => $message], ApiResponse::HTTP_NOT_FOUND);
+            return $response->error404('category', $id);
         }
 
         $em->remove($category);
