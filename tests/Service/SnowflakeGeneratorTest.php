@@ -3,9 +3,9 @@
 namespace App\Tests\Service;
 
 use App\Service\SnowflakeGenerator;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SnowflakeGeneratorTest extends KernelTestCase
+class SnowflakeGeneratorTest extends TestCase
 {
     /**
      * @var SnowflakeGenerator
@@ -13,8 +13,7 @@ class SnowflakeGeneratorTest extends KernelTestCase
     private $snowflake;
 
     public function setUp(): void{
-        self::bootKernel();
-        $this->snowflake = self::$container->get(SnowflakeGenerator::class);
+        $this->snowflake = new SnowflakeGenerator;
     }
 
     public function testExplicitlyGeneratesId()
