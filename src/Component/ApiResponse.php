@@ -25,6 +25,19 @@ class ApiResponse extends JsonResponse
     }
 
     /**
+     * Send a not found error response
+     * @param string $element Element that was not found
+     * @param string $id Attempted id
+     * @return self
+     */
+    public function error404(string $element, string $id): self
+    {
+        $message = "Could not find '$element' with the id: $id";
+
+        return $this->error('Not Found', ['id' => $message], ApiResponse::HTTP_NOT_FOUND);
+    }
+
+    /**
      * Send a successful formatted response
      * @param array $data Body data
      * @param int $status HTTP status code
