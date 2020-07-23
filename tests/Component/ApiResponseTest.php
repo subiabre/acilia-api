@@ -11,10 +11,11 @@ class ApiResponseTest extends TestCase
     public function testErrorReturnsExpectedResponse()
     {
         $response = new ApiResponse();
+        $message = 'Error message';
         $data = ['key' => 'value'];
 
-        $expected = new JsonResponse(['error' => $data], 400);
-        $actual = $response->error($data);
+        $expected = new JsonResponse(['error' => ['message' => $message, 'errors' => $data]], 400);
+        $actual = $response->error($message, $data);
         
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertInstanceOf(JsonResponse::class, $actual);
