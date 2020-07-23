@@ -126,4 +126,28 @@ class CategoriesController extends AbstractController
         
         return $response->data(['category' => $categoryData]);
     }
+
+    /**
+     * @Route("/category/{id}" name="Category:remove", methods={"DELETE"})
+     */
+    public function d(
+        String $id,
+        ApiResponse $response,
+        EntityManagerInterface $em,
+        CategoryRepository $categories
+    )
+    {
+        $category = $categories->find($id);
+
+        if (!$category) {
+            $message = "Could not find any category with the id: $id";
+
+            return $response->error('Not Found', ['id' => $message], ApiResponse::HTTP_NOT_FOUND);
+        }
+
+        $em->remove($category);
+        $em->flush();
+
+        return $response->data(['category' => 'Category was successfully deleted']);
+    }
 }
