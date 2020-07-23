@@ -84,4 +84,46 @@ class CategoriesController extends AbstractController
 
         return $response->data(['category' => $categoryData]);
     }
+
+    /**
+     * @Route("/category/{id}", name="Category:update", methods={"PUT"})
+     */
+    public function u(
+        String $id,
+        Request $request,
+        ApiResponse $response,
+        EntityManagerInterface $em,
+        ValidatorInterface $validator,
+        NormalizerInterface $normalizer,
+        CategoryRepository $categories
+    )
+    {
+        $category = $categories->find($id);
+        $requestBody = $request->request;
+
+        if (!$category) {
+            $message = "Could not find any category with the id: $id";
+
+            return $response->error('Not Found', ['id' => $message], ApiResponse::HTTP_NOT_FOUND);
+        }
+
+        $category
+            ->setName($requestBody->get('name'))
+            ->setDescription($requestBody->get('description'));
+
+        $errors = $validator->validate($category);
+
+        if (\count($errors) > 0) {
+            $errorList = listValidationErrors($errors);
+
+            return $response->error('Malformed payload', $errorList);
+        }
+
+        $em->persist($category);
+        $em->flush();
+
+        $categoryData = $normalizer->normalize($category);
+        
+        return $response->data(['category' => $categoryData]);
+    }
 }
