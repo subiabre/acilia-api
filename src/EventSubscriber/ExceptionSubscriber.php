@@ -32,7 +32,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         $exception = $exceptionEvent->getThrowable();
 
-        $response = $this->response->error($exception->getMessage(), $exception->getTrace());
+        $response = $this->response->error($exception->getMessage(), ['code' => $exception->getCode()]);
 
         $exceptionEvent->setResponse($response);
     }
