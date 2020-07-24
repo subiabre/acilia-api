@@ -28,7 +28,11 @@ class CurrencyConverterTest extends TestCase
         $actual = $converter
             ->from($value, 'EUR')
             ->to('USD')
+            ->to('GBP')
             ->getValues();
+
+        $this->assertArrayHasKey('USD', $actual);
+        $this->assertArrayHasKey('GBP', $actual);
         
         foreach ($actual as $key) {
             $this->assertNotSame($value, $key);
