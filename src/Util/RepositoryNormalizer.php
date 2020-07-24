@@ -2,6 +2,7 @@
 
 namespace App\Util;
 
+use App\Service\CurrencyConverter;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -14,9 +15,15 @@ class RepositoryNormalizer
      */
     private $normalizer;
 
-    public function __construct(NormalizerInterface $normalizer)
+    /**
+     * @var CurrencyConverter
+     */
+    private $currencyConverter;
+
+    public function __construct(NormalizerInterface $normalizer, CurrencyConverter $currencyConverter)
     {
         $this->normalizer = $normalizer;
+        $this->currencyConverter = $currencyConverter;
     }
 
     /**
@@ -35,5 +42,33 @@ class RepositoryNormalizer
         }
 
         return $allProducts;
+    }
+
+    /**
+     * Normalize elements inside the repository list with converted currency values
+     * @param array $repositoryList An array of elements from a repository search
+     * @param string $currency Currency to convert to
+     * @return array
+     */
+    public function currencyConvert(array $featured, string $currency): array
+    {
+        $allProducts = [];
+
+        foreach ($featured as $key => $product) {
+            if ($product->getCurrency() !== $currency) {
+                $price = $this->currencyConverter
+                    ->from($product->getPrice(), $product->getCurrency())
+                    ->to($currency)
+                    ->getValues();
+
+                $product
+                    ->setCurrency($currency)
+                    ->setPrice($price[$currency]);
+            }
+
+            $allProducts[$key] = $product;
+        }
+
+        return $this->list($allProducts);
     }
 }
