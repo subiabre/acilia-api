@@ -74,14 +74,21 @@ class ProductsController extends AbstractController
      * @Route("/product/featured", name="Product:featured", methods={"GET"})
      */
     public function rFeatured(
+        Request $request,
         ApiResponse $response,
         RepositoryNormalizer $repositoryNormalizer,
         ProductRepository $products
     )
     {
         $featured = $products->findBy(['featured' => true]);
-        $allFeatured = $repositoryNormalizer->list($featured);
+        $allProducts = $repositoryNormalizer->list($featured);
 
-        return $response->data(['products' => $allFeatured]);
+        $currency = $request->query->get('currency', false);
+
+        if ($currency) {
+            $allProducts = $repositoryNormalizer->currencyConvert($featured, $currency);
+        }
+
+        return $response->data(['products' => $allProducts]);
     }
 }
