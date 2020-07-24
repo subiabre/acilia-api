@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Component\ApiResponse;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use App\Util\RepositoryNormalizer;
 use App\Util\ValidationErrors;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,19 +60,28 @@ class ProductsController extends AbstractController
      */
     public function r(
         ApiResponse $response,
-        NormalizerInterface $normalizer,
+        RepositoryNormalizer $repositoryNormalizer,
         ProductRepository $products
     )
     {
         $productList = $products->findAll();
-        $allProducts = [];
-        
-        foreach ($productList as $product) {
-            $productData = $normalizer->normalize($product);
-
-            \array_push($allProducts, $productData);
-        }
+        $allProducts = $repositoryNormalizer->list($productList);
 
         return $response->data(['products' => $allProducts]);
+    }
+
+    /**
+     * @Route("/product/featured", name="Product:featured", methods={"GET"})
+     */
+    public function rFeatured(
+        ApiResponse $response,
+        RepositoryNormalizer $repositoryNormalizer,
+        ProductRepository $products
+    )
+    {
+        $featured = $products->findBy(['featured' => true]);
+        $allFeatured = $repositoryNormalizer->list($featured);
+
+        return $response->data(['products' => $allFeatured]);
     }
 }
