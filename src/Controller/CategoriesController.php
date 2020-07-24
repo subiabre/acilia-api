@@ -124,7 +124,7 @@ class CategoriesController extends AbstractController
     }
 
     /**
-     * @Route("/category/{id}" name="Category:remove", methods={"DELETE"})
+     * @Route("/category/{id}", name="Category:remove", methods={"DELETE"})
      */
     public function d(
         String $id,
