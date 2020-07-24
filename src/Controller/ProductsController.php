@@ -23,8 +23,8 @@ class ProductsController extends AbstractController
         ApiResponse $response,
         EntityManagerInterface $em,
         ValidatorInterface $validator,
-        NormalizerInterface $normalizer,
-        ValidationErrors $validationErrors
+        ValidationErrors $validationErrors,
+        NormalizerInterface $normalizer
     )
     {
         $product = new Product;
