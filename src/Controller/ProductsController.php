@@ -81,7 +81,7 @@ class ProductsController extends AbstractController
     )
     {
         $featured = $products->findBy(['featured' => true]);
-        $allProducts = $repositoryNormalizer->list($featured);
+        $allProducts = $repositoryNormalizer->categoryName($featured);
 
         $currency = $request->query->get('currency', false);
 
