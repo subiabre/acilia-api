@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CategoriesController extends AbstractController
 {
     /**
-     * @Route("/category", name="Category:new", methods={"POST"})
+     * @Route("/categories", name="Category:new", methods={"POST"})
      */
     public function c(
         Request $request,
@@ -52,7 +52,7 @@ class CategoriesController extends AbstractController
     }
 
     /**
-     * @Route("/category/{id}", name="Category:select", methods={"GET"})
+     * @Route("/categories/{id}", name="Category:select", methods={"GET"})
      */
     public function r(
         String $id,
@@ -88,7 +88,7 @@ class CategoriesController extends AbstractController
     }
 
     /**
-     * @Route("/category/{id}", name="Category:update", methods={"PUT"})
+     * @Route("/categories/{id}", name="Category:update", methods={"PUT"})
      */
     public function u(
         String $id,
@@ -129,7 +129,7 @@ class CategoriesController extends AbstractController
     }
 
     /**
-     * @Route("/category/{id}", name="Category:remove", methods={"DELETE"})
+     * @Route("/categories/{id}", name="Category:remove", methods={"DELETE"})
      */
     public function d(
         String $id,

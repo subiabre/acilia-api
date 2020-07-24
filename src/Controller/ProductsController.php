@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ProductsController extends AbstractController
 {
     /**
-     * @Route("/product", name="Product:new", methods={"POST"})
+     * @Route("/products", name="Product:new", methods={"POST"})
      */
     public function c(
         Request $request,
@@ -71,7 +71,7 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/product/featured", name="Product:featured", methods={"GET"})
+     * @Route("/products/featured", name="Product:featured", methods={"GET"})
      */
     public function rFeatured(
         Request $request,
