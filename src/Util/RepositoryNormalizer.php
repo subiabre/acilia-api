@@ -2,6 +2,7 @@
 
 namespace App\Util;
 
+use App\Repository\CategoryRepository;
 use App\Service\CurrencyConverter;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -20,10 +21,19 @@ class RepositoryNormalizer
      */
     private $currencyConverter;
 
-    public function __construct(NormalizerInterface $normalizer, CurrencyConverter $currencyConverter)
+    /**
+     * @var CategoryRepository
+     */
+
+    public function __construct(
+        NormalizerInterface $normalizer, 
+        CurrencyConverter $currencyConverter,
+        CategoryRepository $categories
+    )
     {
         $this->normalizer = $normalizer;
         $this->currencyConverter = $currencyConverter;
+        $this->categories = $categories;
     }
 
     /**
@@ -67,6 +77,29 @@ class RepositoryNormalizer
             }
 
             $allProducts[$key] = $product;
+        }
+
+        return $this->list($allProducts);
+    }
+
+    /**
+     * Normalize product list with category name instead of category id
+     * @param array $productList
+     * @return array
+     */
+    public function categoryName(array $productList): array
+    {
+        $allProducts = [];
+
+        foreach ($productList as $product) {
+            $id = $product->getCategory() ?: 0;
+            $category = $this->categories->find($id);
+
+            if ($category) {
+                $product->setCategory($category->getName());
+            }
+
+            \array_push($allProducts, $product);
         }
 
         return $this->list($allProducts);
