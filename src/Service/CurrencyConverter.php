@@ -2,6 +2,9 @@
 
 namespace App\Service;
 
+use Exception;
+use Symfony\Component\HttpClient\HttpClient;
+
 /**
  * Converts values in one currency to another,
  * built using the https://exchangeratesapi.io/ API
@@ -59,5 +62,37 @@ class CurrencyConverter
         $symbols = \implode(',', $this->symbols);
 
         return self::API . "?base=$base&symbols=$symbols";
+    }
+
+    /**
+     * Get the worth of the base currency amount in the target currencies
+     * @throws Exception on http error
+     * @return array
+     */
+    public function getValues(): array
+    {
+        $endpoint = $this->getApi();
+        $http = (new HttpClient)->create();
+
+        $response = $http->request(
+            'GET',
+            $endpoint
+        );
+
+        if ($response->getStatusCode() !== 200) {
+            throw new Exception("Error Processing Response. Server at $endpoint did not respond with code '200'", 1);
+            return [];
+        }
+
+        $responseBody = $response->toArray();
+        $values = [];
+
+        foreach ($responseBody['rates'] as $currency => $ratio) {
+            $value = $this->value * $ratio;
+
+            $values[$currency] = $value;
+        }
+
+        return $values;
     }
 }
