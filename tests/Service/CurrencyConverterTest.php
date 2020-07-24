@@ -19,4 +19,19 @@ class CurrencyConverterTest extends TestCase
         
         $this->assertSame($expected, $actual);
     }
+
+    public function testConvertsCurrency()
+    {
+        $converter = new CurrencyConverter;
+        
+        $value = 1.0;
+        $actual = $converter
+            ->from($value, 'EUR')
+            ->to('USD')
+            ->getValues();
+        
+        foreach ($actual as $key) {
+            $this->assertNotSame($value, $key);
+        }
+    }
 }
