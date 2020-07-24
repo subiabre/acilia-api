@@ -58,6 +58,7 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "test": "./bin/phpunit",
+        "update-database": "php bin/console doctrine:migrations:migrate",
         "post-install-cmd": [
             "@auto-scripts"
         ],
