@@ -32,7 +32,7 @@ class CategoriesController extends AbstractController
         $requestBody = $request->request;
 
         $category
-            ->setName($requestBody->get('name'))
+            ->setName($requestBody->get('name', ''))
             ->setDescription($requestBody->get('description'));
 
         $errors = $validator->validate($category);
@@ -109,7 +109,7 @@ class CategoriesController extends AbstractController
         }
 
         $category
-            ->setName($requestBody->get('name'))
+            ->setName($requestBody->get('name', ''))
             ->setDescription($requestBody->get('description'));
 
         $errors = $validator->validate($category);
