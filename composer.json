@@ -61,6 +61,7 @@
         "test": "./bin/phpunit",
         "update-database": "php bin/console doctrine:migrations:migrate",
         "build": [
+            "php bin/console cache:clear",
             "composer dump-env prod"
         ],
         "post-install-cmd": [
