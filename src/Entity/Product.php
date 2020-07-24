@@ -38,13 +38,13 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=3)
-     * @Assert\Choice({"EUR", "USD"})
+     * @Assert\Choice(choices={"EUR", "USD"}, message="Currency can only be 'EUR' or 'USD'")
      */
     private $currency;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $featured;
 
