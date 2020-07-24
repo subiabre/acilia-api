@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Component\ApiResponse;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use App\Util\RepositoryNormalizer;
 use App\Util\ValidationErrors;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,6 +70,21 @@ class CategoriesController extends AbstractController
         $categoryData = $normalizer->normalize($category);
 
         return $response->data(['category' => $categoryData]);
+    }
+
+    /**
+     * @Route("/categories", name="Category:list", methods={"GET"})
+     */
+    public function rAll(
+        ApiResponse $response,
+        RepositoryNormalizer $repositoryNormalizer,
+        CategoryRepository $categories
+    )
+    {
+        $categoryList = $categories->findAll();
+        $allCategories = $repositoryNormalizer->list($categoryList);
+
+        return $response->data(['categories' => $allCategories]);
     }
 
     /**
