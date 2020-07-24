@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class RepositoryNormalizer
 {
     /**
-     * @var Normalizer
+     * @var NormalizerInterface
      */
     private $normalizer;
 
@@ -76,10 +76,10 @@ class RepositoryNormalizer
                     ->setPrice($price[$currency]);
             }
 
-            $allProducts[$key] = $product;
+            $allProducts[$key] = $this->normalizer->normalize($product);
         }
 
-        return $this->list($allProducts);
+        return $allProducts;
     }
 
     /**
@@ -99,9 +99,9 @@ class RepositoryNormalizer
                 $product->setCategory($category->getName());
             }
 
-            \array_push($allProducts, $product);
+            \array_push($allProducts, $this->normalizer->normalize($product));
         }
 
-        return $this->list($allProducts);
+        return $allProducts;
     }
 }
