@@ -59,6 +59,9 @@
         },
         "test": "./bin/phpunit",
         "update-database": "php bin/console doctrine:migrations:migrate",
+        "build": [
+            "composer dump-env prod"
+        ],
         "post-install-cmd": [
             "@auto-scripts"
         ],
